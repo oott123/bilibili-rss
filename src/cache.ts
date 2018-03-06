@@ -49,7 +49,7 @@ export class Cache implements ICache {
     await writeFileAsync(filename, JSON.stringify(entry))
   }
   private getFilename(key: string) {
-    return `${this.path}/${key.replace(/[/]/, '--').substr(0, 252)}`
+    return `${this.path}/${key.replace(/[/]/g, '--').substr(0, 252)}`
   }
 }
 
