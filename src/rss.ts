@@ -34,7 +34,7 @@ function genEntry(video: IVideo) {
     <p><img src="${video.coverUrl}" /></p>
     <p>${desc}</p>
   ]]></content>
-	<updated>${video.created.toISOString()}</updated>
+	<updated>${new Date(video.created).toISOString()}</updated>
   <author>
     <name>${video.author.name}</name>
     <url>${video.author.url}</url>
@@ -42,7 +42,7 @@ function genEntry(video: IVideo) {
 	<source>
 		<id>${video.url}</id>
 		<link rel="self" href="${video.url}"/>
-		<updated>${video.created.toISOString()}</updated>
+		<updated>${new Date(video.created).toISOString()}</updated>
     <title>${_.escape(title)}</title>
   </source>
 </entry>

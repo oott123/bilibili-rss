@@ -9,5 +9,5 @@ export interface IVideo {
     url: string
   }
   duration: string
-  created: Date
+  created: number
 }
