@@ -1,21 +1,30 @@
 import * as _ from 'lodash'
 import { IVideo } from './video'
 
-export async function generateRss(videos: IVideo[]) {
-  return genMeta('谜之声', 'submit/videos/som', videos.map(genEntry).join('\n'))
+export async function generateAtom(
+  title: string,
+  id: string,
+  videos: IVideo[]
+) {
+  return genAtomDoc(title, id, videos)
 }
 
-function genMeta(title: string, id: string, entries: string) {
+function genAtomDoc(title: string, id: string, entries: IVideo[]) {
+  entries = _.orderBy(entries, 'created', 'desc')
+  if (!entries.length) {
+    return ''
+  }
   return `
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="atom-to-html.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>${title}</title>
+  <link rel="self" type="text/html" href="https://www.bilibili.com" />
   <generator uri="https://best33.com/">Bilibili RSS</generator>
-  <updated>${new Date().toISOString()}</updated>
+  <updated>${new Date(entries[0].created).toISOString()}</updated>
   <id>${id}</id>
-  ${entries}
-</feed>`
+  ${entries.map(genEntry).join('\n')}
+</feed>`.trim()
 }
 
 function genEntry(video: IVideo) {
@@ -26,7 +35,7 @@ function genEntry(video: IVideo) {
   }
   return `
 <entry>
-	<id>bilibili,${video.url}</id>
+	<id>${video.url}</id>
 	<link href="${video.url}" rel="alternate" type="text/html" />
 	<title type="html">${_.escape(title)}</title>
 	<summary type="html"><![CDATA[<p>${desc}</p>]]></summary>
@@ -37,7 +46,6 @@ function genEntry(video: IVideo) {
 	<updated>${new Date(video.created).toISOString()}</updated>
   <author>
     <name>${video.author.name}</name>
-    <url>${video.author.url}</url>
   </author>
 	<source>
 		<id>${video.url}</id>
