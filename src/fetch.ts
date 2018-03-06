@@ -58,7 +58,7 @@ export async function getSubmitVideos(
 
 export async function getSubVideos(video: IVideo): Promise<IVideo[]> {
   const cacheKey = `subvideos:${video.url}`
-  const cachedVideos = await cache.get<IVideo[]>(`cacheKey`)
+  const cachedVideos = await cache.get<IVideo[]>(cacheKey)
   if (cachedVideos) {
     debug(`${video.title}: cache hit`)
     return cachedVideos
