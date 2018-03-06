@@ -64,7 +64,7 @@ export async function getSubVideos(video: IVideo): Promise<IVideo[]> {
     return cachedVideos
   }
   debug(`${video.title}: checking subvideos`)
-  const entryRegex = /<option value='(\/video\/av\d+\/index_\d+\.html)' cid='\d+'>([^<]+)<\/option>/
+  const entryRegex = /<option value='(\/video\/av\d+\/index_\d+\.html)' cid='\d+'>([^<]+)<\/option>/g
   const listRegex = /<div id="plist">((?:.|\n|\r)*)<\/div>/
   const resp = await axios.get(video.url, { responseType: 'text' })
   const rawHtml: string = resp.data
@@ -77,7 +77,7 @@ export async function getSubVideos(video: IVideo): Promise<IVideo[]> {
       const subVideo = _.cloneDeep(video)
       subVideo.subtitle = _.unescape(subTitle)
       subVideo.url = `https://www.bilibili.com${subUrl}`
-      resultList.push(subVideo)
+      resultList.unshift(subVideo)
       return ''
     })
   }
