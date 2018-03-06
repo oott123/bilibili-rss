@@ -10,7 +10,10 @@
       "name": "Launch Program",
       "program": "${workspaceFolder}/start.js",
       "sourceMaps": true,
-      "outputCapture": "std"
+      "outputCapture": "std",
+      "env": {
+        "DEBUG": "bilibili-rss:*"
+      }
     }
   ]
 }
