@@ -29,7 +29,8 @@ export async function getSubmitVideos(
         name: item.author,
         url: `https://space.bilibili.com/${item.mid}`
       },
-      duration: item.length
+      duration: item.length,
+      created: new Date(item.created * 1000)
     }
     return video
   })
