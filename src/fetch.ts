@@ -75,7 +75,7 @@ export async function getSubVideos(video: IVideo): Promise<IVideo[]> {
   } else {
     listMatches[1].replace(entryRegex, ($0, subUrl, subTitle) => {
       const subVideo = _.cloneDeep(video)
-      subVideo.subtitle = subTitle
+      subVideo.subtitle = _.unescape(subTitle)
       subVideo.url = `https://www.bilibili.com${subUrl}`
       resultList.push(subVideo)
       return ''
